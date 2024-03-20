@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let items = [];
     let itemIdCounter = 0; 
 
-    // Função para adicionar um item à lista
+        // Função para adicionar um item à lista
     function addItem(name, source) {
         const li = document.createElement('li');
         li.classList.add('item');
@@ -31,9 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="edit">Editar</button>
             <button class="delete">Excluir</button>
         `;
-        itemList.appendChild(li);
+        document.getElementById('itemContainer').appendChild(li);
         bindItemEvents(li);
     }
+
 
     // Função para vincular eventos aos elementos de um item
     function bindItemEvents(item) {
@@ -88,13 +89,16 @@ document.addEventListener('DOMContentLoaded', function() {
         quantityControls.style.display = 'inline-block';
     }
 
-    // Função para atualizar a ordem da lista
+        // Função para atualizar a ordem da lista
     function updateListOrder() {
         const checkedItems = itemList.querySelectorAll('.checked');
         checkedItems.forEach(item => {
-            itemList.appendChild(item);
+            if (item !== showHistoryButton) {
+                itemList.appendChild(item);
+            }
         });
     }
+
 
     // Função para filtrar e renderizar os itens na lista
     function renderFilteredItems(filteredItems) {
@@ -164,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 addItem(itemName, 'standard');
                 items.push({ id: itemIdCounter++, name: itemName, quantity: 1 });
             }
+            updateListOrder(); // Atualizar a ordem após adicionar um item padrão
         });
     });
 });
