@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Lista de itens e contador de IDs
     let items = [];
-    let itemIdCounter = 0; 
+    let itemIdCounter = 0;
 
-        // Função para adicionar um item à lista
+    // Função para adicionar um item à lista
     function addItem(name, source) {
         const li = document.createElement('li');
         li.classList.add('item');
-        li.setAttribute('data-source', source); 
-        li.setAttribute('data-id', itemIdCounter); 
+        li.setAttribute('data-source', source);
+        li.setAttribute('data-id', itemIdCounter);
         li.innerHTML = `
             <input type="checkbox">
             <input type="text" value="${name}" readonly>
@@ -31,10 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="edit">Editar</button>
             <button class="delete">Excluir</button>
         `;
-        document.getElementById('itemContainer').appendChild(li);
+        itemList.appendChild(li);
         bindItemEvents(li);
     }
-
 
     // Função para vincular eventos aos elementos de um item
     function bindItemEvents(item) {
@@ -77,16 +76,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Evento de clique no checkbox
-        checkbox.addEventListener('click', function() {
+        checkbox.addEventListener('change', function() {
             if (checkbox.checked) {
                 item.classList.add('checked');
+                itemList.appendChild(item); // Move o item para o final da lista
             } else {
                 item.classList.remove('checked');
             }
-            setTimeout(updateListOrder, 0); 
+            setTimeout(updateListOrder, 0);
         });
 
         quantityControls.style.display = 'inline-block';
+    }
+
+    // Função para atualizar a ordem da lista
+    function updateListOrder() {
+        const checkedItems = itemList.querySelectorAll('.checked');
+        checkedItems.forEach(item => {
+            if (item !== showHistoryButton) {
+                itemList.appendChild(item);
+            }
+        });
     }
 
         // Função para atualizar a ordem da lista
